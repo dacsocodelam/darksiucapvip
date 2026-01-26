@@ -404,6 +404,7 @@ import CyberpunkLoader from "./CyberpunkLoader";
 import HologramGift from "./HologramGift";
 import NeuralTransition from "./NeuralTransition";
 import QuantumHologram from "./QuantumHologram";
+import TechLoadingHUD from "./TechLoadingHUD";
 
 // ... (Keep existing imports)
 
@@ -435,9 +436,9 @@ export default function GiftPortal({ progress = 0, formData = {} }: GiftPortalPr
                 <ambientLight intensity={0.5} color="#00ffff" />
                 <pointLight position={[10, 5, 10]} intensity={2} color="#ffffff" />
                 
-                {/* Cyberpunk Loading Phase (Replaced with Neural Transition) */}
+                {/* Tech HUD Loading Phase (Replaces Neural/Cyberpunk) */}
                 {!isExploding && (
-                    <NeuralTransition progress={progress} isComplete={isExploding} />
+                    <TechLoadingHUD progress={progress} />
                 )}
 
                 {/* Holographic Result Phase */}
@@ -469,7 +470,7 @@ export default function GiftPortal({ progress = 0, formData = {} }: GiftPortalPr
             </Canvas>
         </div>
 
-        <CinematicUI progress={progress} messages={messages} />
+        {/* <CinematicUI progress={progress} messages={messages} /> */}
     </div>
   );
 }
