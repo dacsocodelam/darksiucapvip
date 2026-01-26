@@ -400,74 +400,76 @@ function CinematicUI({ progress, messages }: { progress: number, messages: strin
 // -------------------------------------------------------------
 // MAIN COMPONENT
 // -------------------------------------------------------------
+import CyberpunkLoader from "./CyberpunkLoader";
+import HologramGift from "./HologramGift";
+import NeuralTransition from "./NeuralTransition";
+import QuantumHologram from "./QuantumHologram";
+
+// ... (Keep existing imports)
+
+// -------------------------------------------------------------
+// MAIN COMPONENT
+// -------------------------------------------------------------
 export default function GiftPortal({ progress = 0, formData = {} }: GiftPortalProps) {
   const [messages, setMessages] = useState<string[]>([]);
   const isExploding = progress >= 99;
 
   useEffect(() => {
-     if (progress < 10) setMessages(["// INIT_GPU_CLUSTERS"]);
-     else if (progress < 40) setMessages(["// OPTIMIZING_NEURAL_PATH", ">> ALLOCATING_VRAM"]);
-     else if (progress < 70) setMessages(["// WEAVING_DATA_THREADS", ">> SYNCHRONIZING_CORE"]);
-     else if (progress < 95) setMessages(["// RENDERING_REALITY", ">> FINAL_COMPILE"]);
-     else if (progress >= 100) setMessages([">> EXECUTION_COMPLETE"]);
+     if (progress < 10) setMessages(["// INITIALIZING_CYBER_DECK"]);
+     else if (progress < 30) setMessages([">> CONNECTING_TO_NEURAL_NET", ">> DECRYPTING_USER_PROFILE"]);
+     else if (progress < 60) setMessages(["// DOWNLOADING_GIFT_MATRICES", ">> PATTERN_RECOGNITION: ACTIVE"]);
+     else if (progress < 90) setMessages(["// SYNTHESIZING_HOLOGRAM", ">> COMPILING_RESULTS..."]);
+     else if (progress >= 100) setMessages([">> UNBOXING_SEQUENCE_READY"]);
   }, [progress]);
 
   return (
     <div className="fixed inset-0 z-50 bg-black overflow-hidden">
         <div className="absolute inset-0 z-0">
             <Canvas  
-                dpr={[1, 2]} // Support high-DPI screens but cap at 2x
+                dpr={[1, 1.5]} 
                 gl={{ toneMapping: THREE.ReinhardToneMapping, toneMappingExposure: 1.5 }}
-                // Optimization: Switch to demand rendering if static, but this is animated.
             >
-                <PerspectiveCamera makeDefault position={[0, 0, 9]} />
-                <color attach="background" args={['#02020a']} />
+                <PerspectiveCamera makeDefault position={[0, 0, 8]} />
+                <color attach="background" args={['#050510']} />
                 
-                {/* Lighting: Optimized */}
                 <ambientLight intensity={0.5} color="#00ffff" />
-                <pointLight position={[10, 5, 10]} intensity={1.5} color="#ffffff" />
+                <pointLight position={[10, 5, 10]} intensity={2} color="#ffffff" />
                 
-                {/* Environment: Reduced need for expensive env maps if mostly wireframe/points */}
-                <Environment preset="night" />
+                {/* Cyberpunk Loading Phase (Replaced with Neural Transition) */}
+                {!isExploding && (
+                    <NeuralTransition progress={progress} isComplete={isExploding} />
+                )}
+
+                {/* Holographic Result Phase */}
+                {isExploding && (
+                   <group>
+                     {/* VIP Quantum Effect */}
+                     <QuantumHologram isVisible={isExploding} />
+                     
+                     {/* Keep orbiters for context info */}
+                     <OrbitingData formData={formData} progress={progress} isExploding={false} />
+                   </group>
+                )}
                 
-                {/* Core Layers */}
-                <ParticleTunnel progress={progress} />
-                <GPUConstellationCore progress={progress} isExploding={isExploding} />
-                <OrbitingData formData={formData} progress={progress} isExploding={isExploding} />
-                
-                {/* Post Processing: OPTIMIZED */}
-                <EffectComposer disableNormalPass>
-                    {/* Resolution Scale 0.5: Huge performance gain, softer bloom */}
+                <EffectComposer>
                     <Bloom 
-                        luminanceThreshold={0.6} 
+                        luminanceThreshold={0.2} // Lower threshold for neon look
                         luminanceSmoothing={0.9} 
                         height={300} 
-                        intensity={0.8} 
+                        intensity={1.5} // Stronger bloom
                         resolutionScale={0.5} 
                     />
-                    <Noise opacity={0.03} />
+                    <Noise opacity={0.05} />
                     <Vignette eskil={false} offset={0.1} darkness={1.1} />
                     <ChromaticAberration 
                         blendFunction={BlendFunction.NORMAL} 
-                        offset={new THREE.Vector2(0.001, 0.001)} 
+                        offset={new THREE.Vector2(0.002, 0.002)} // Stronger glitch
                     />
                 </EffectComposer>
             </Canvas>
         </div>
 
         <CinematicUI progress={progress} messages={messages} />
-
-        {/* Grand Finale Whiteout at end */}
-        <AnimatePresence>
-            {isExploding && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.1, ease: "easeIn" }}
-                    className="absolute inset-0 bg-white z-50 pointer-events-none mix-blend-normal"
-                />
-            )}
-        </AnimatePresence>
     </div>
   );
 }

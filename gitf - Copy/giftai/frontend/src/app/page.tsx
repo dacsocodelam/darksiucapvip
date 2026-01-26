@@ -23,6 +23,8 @@ const BlogCarousel3D = dynamic(() => import("../components/BlogCarousel3D"), {
   ),
 });
 import "../i18n";
+import DynamicBackground from '@/components/DynamicBackground';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Dynamically import AIMascot to avoid SSR issues
 const AIMascot = dynamic(() => import("../components/AIMascot"), {
@@ -31,6 +33,7 @@ const AIMascot = dynamic(() => import("../components/AIMascot"), {
 
 export default function Home() {
   const { t, ready } = useTranslation();
+  const [showResult, setShowResult] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [connectingParticles, setConnectingParticles] = useState<
     Array<{
@@ -381,6 +384,9 @@ export default function Home() {
 
   return (
     <>
+      {/* NEW: Dynamic Cyberpunk Background */}
+      <DynamicBackground />
+
       {/* Fixed 3D AI Mascot - Floats throughout entire page */}
       <AIMascot />
 
